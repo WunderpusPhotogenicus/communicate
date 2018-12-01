@@ -1,12 +1,9 @@
-import React from 'react'
+import React from "react";
 
 export default function Chatbox() {
   return (
-    <div>
-      <div id="chat-box">
-
-      </div>
-      
+    <div id="chat-box">
+      <h1>chat box</h1>
     </div>
-  )
+  );
 }

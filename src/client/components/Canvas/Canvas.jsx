@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 
 export default function Canvas() {
   return (
-    <div>
+    <div id='canvas'>
       <div id="application"></div>
     </div>
   )
