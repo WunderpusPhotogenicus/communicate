@@ -4,7 +4,8 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        <p>words</p>
+        <Tabs />
+        
       </div>
     )
   }
