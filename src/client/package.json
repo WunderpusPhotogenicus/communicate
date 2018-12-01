@@ -5,7 +5,7 @@
   "main": ".src/index.js",
   "scripts": {
     "test": "jest",
-    "start": "webpack-dev-server --hot --open",
+    "start": "webpack-dev-server --hot --open --development",
     "build": "webpack --production",
     "socket": "nodemon ../server/testServer.js"
   },
