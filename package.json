@@ -4,7 +4,7 @@
   "description": "Real time peer to peer video conferencing app with real time multi user whiteboard application",
   "main": ".src/index.js",
   "scripts": {
-    "start": "nodemon ./src/index.js",
+    "start": "nodemon ./src/server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
