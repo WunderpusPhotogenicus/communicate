@@ -9,6 +9,14 @@ body {
   margin: auto;
 }
 
+button{
+  height:3em;
+  width:7em;
+  font-size: 1em;
+  vertical-align: middle;
+  color:white;
+}
+
 .tab {
 }
 
@@ -81,3 +89,4 @@ body {
   height: 5em;
   background-color: #ffa69e;
 }
+
