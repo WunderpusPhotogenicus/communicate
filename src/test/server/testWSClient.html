@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Communicate!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+  <div style="display:flex;width:250px;flex-direction:column;margin: 0 auto;align-items:stretch;">
+    <h2>Websocket Client/Server Tester</h1>
+    <p>Testing Server from whence this page came</p>
+    <!-- <div>
+      <label><strong>Server URL</strong></label>
+    </div>
+    <div>
+      <input id="websocketURL" placeholder="ws://localhost:3000" />
+    </div> -->
+    <div>
+      <button onclick="handleClickTest()">Test WebSocket</button>
+      <button onclick="handleClickClose()">Close WebSocket</button>
+    </div>
+  </div>
+  <script>
+
+    const handleClickTest = () => {
+      socket.open();
+      socket.emit('test-server', 'Hello Server');
+    };
+
+    const handleClickClose = () => {
+      socket.close();
+    };
+
+
+    // Don't have to specify any URL when call io()
+    // since it defaults to trying to connect to the
+    // host that serves the page.
+    let socket = io({
+      autoConnect: false, 
+      transports: ['websocket']
+    });
+
+    socket.on('connect', () => {
+      console.log(`Server URL: ${socket.io.uri}`);
+      console.log('Socket Connected:');
+      console.log(socket);
+    });
+
+    socket.on('test-client', (data) => {
+      console.log('Socket received Msg [event::test-client]:');
+      console.log(data);
+    });
+
+    socket.on('id', (data) => {
+      console.log('Socket received Msg [event::id]:');
+      console.log(data);
+    });
+
+    socket.on('userlist', (data) => {
+      console.log('Socket received Msg [event::userlist]:');
+      console.log(data);
+    });
+
+    socket.on('broadcast', (data) => {
+      console.log('Socket received Msg [event::broadcast]:');
+      console.log(data);
+    });
+
+    socket.on('disconnect', () => {
+      console.log('Socket Disconnected.');
+    });
+
+    /*  
+    
+    // Testing using native WebSocket
+    const socket = new WebSocket('ws://localhost:3000');
+
+    socket.onopen = (event) => {
+      // on connection do something
+      console.log('socket open:');
+      console.log(socket);
+      console.log(event);
+      socket.send('test-server', 'Hello Server');
+    };
+
+    socket.onmessage = (event) => {
+      console.log('Msg received:');
+      console.log(event);
+    };
+
+    socket.onerror = (event) => {
+      console.log('Error Occurred:');
+      console.log(event);
+    };
+
+    socket.onclose = (event) => {
+      console.log('Socket Closed');
+      console.log(event);
+    };
+    */
+  </script>
+</body>
+</html>
