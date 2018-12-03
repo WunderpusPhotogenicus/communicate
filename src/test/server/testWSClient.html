@@ -18,10 +18,21 @@
     </div> -->
     <div>
       <button onclick="handleClickTest()">Test WebSocket</button>
+      <button onclick="handleClickSetUserName()">Set UserName</button>
       <button onclick="handleClickClose()">Close WebSocket</button>
     </div>
   </div>
   <script>
+
+  const handleClickSetUserName = () => {
+      socket.open();
+      socket.emit('username', {
+        name: 'User' + Math.floor((Math.random() * 1000)),
+        date: Date.now(),
+        id: clientID,
+        type: "username"
+      });
+    };
 
     const handleClickTest = () => {
       socket.open();
@@ -41,6 +52,8 @@
       transports: ['websocket']
     });
 
+    let clientID;
+
     socket.on('connect', () => {
       console.log(`Server URL: ${socket.io.uri}`);
       console.log('Socket Connected:');
@@ -55,6 +68,8 @@
     socket.on('id', (data) => {
       console.log('Socket received Msg [event::id]:');
       console.log(data);
+      let message = JSON.parse(data);
+      clientID = message.id;
     });
 
     socket.on('userlist', (data) => {
