@@ -14,7 +14,11 @@ class UserProvider extends Component {
       username: "",
       appID: ""
     },
-    otherID: {}
+    otherID: [],
+    wrtc: {
+
+    }
+
   };
   render() {
     return (

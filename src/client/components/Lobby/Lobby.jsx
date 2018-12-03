@@ -8,8 +8,16 @@ export default function Lobby() {
   return (
     <div id="lobby">
       <LobbyUsers />
-        <NavButton words="Select User" path="/room" />
-        <NavButton words="Go Back" path="/" />
+      <NavButton
+        words="Select User"
+        function={() => console.log("i need a wrtc function")}
+        path="/room"
+      />
+      <NavButton
+        words="Go Back"
+        function={() => console.log("i need a wrtc function")}
+        path="/"
+      />
     </div>
   );
 }
