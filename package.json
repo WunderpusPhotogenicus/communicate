@@ -2,9 +2,9 @@
   "name": "communicate",
   "version": "1.0.0",
   "description": "Real time peer to peer video conferencing app with real time multi user whiteboard application",
-  "main": ".src/index.js",
+  "main": "./src/server/server.js",
   "scripts": {
-    "start": "nodemon ./src/index.js",
+    "start": "nodemon ./src/server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "express": "^4.16.4",
-    "socket.io": "^2.2.0"
+    "socket.io": "^2.2.0",
+    "uuid": "^3.3.2"
   }
 }
