@@ -22,7 +22,7 @@ const UserController = {
       id: newClientID,
     }));
 
-    Logger.log(`Connection accepted (id / ip): ${socket.id} / ${socket.handshake.url}`);
+    Logger.log(`Connection accepted (socket id / IP Addr): ${socket.id} / ${socket.handshake.address}`);
     Logger.log(`New CientID: ${newClientID}`);
   },
 
@@ -30,6 +30,7 @@ const UserController = {
   // Initial value starts at zero.
   getAppendToMakeUnique: () => {
     appendToMakeUnique += 1;
+    Logger.log(`Append to make Unique now: ${appendToMakeUnique}`);
     return appendToMakeUnique;
   },
 
@@ -45,6 +46,7 @@ const UserController = {
         break;
       }
     }
+    Logger.log(`getConnection for clientID: ${id}`);
     return retrievedSocket;
   },
 
@@ -60,6 +62,7 @@ const UserController = {
         break;
       }
     }
+    Logger.log(`isUserNameUnique (name / answer): ${name} / ${isUnique}`);
     return isUnique;
   },
 
@@ -84,18 +87,23 @@ const UserController = {
     Logger.log(`ConnectionArray size before: ${connectionArray.length}`);
     Logger.log('Remove Disconnected User.');
 
-    connectionArray = connectionArray.filter(el => el.connected);
+    connectionArray = connectionArray.filter(el => el.socket.connected);
 
     Logger.log(`ConnectionArray size after: ${connectionArray.length}`);
   },
 
-  // Sends a message (which is already stringified JSON) to a single
-  // user, given their username. We use this for the WebRTC signaling,
-  // and we could use it for private text messaging.
-  sendToOneUser: (target, msgString) => {
+  // Sends a message to a single user, given their username.
+  // Used for the WebRTC signaling and for private text messaging.
+  sendToOneUser: (message) => {
+    const msgString = JSON.stringify(message);
+
     for (let i = 0; i < connectionArray.length; i += 1) {
-      if (connectionArray[i].username === target) {
-        connectionArray[i].sendUTF(msgString);
+      if (connectionArray[i].username === message.target) {
+        connectionArray[i].socket.emit(message.type, msgString);
+
+        Logger(`Emitting message to clientID: ${connectionArray[i].clientID}.`);
+        Logger(`Message (type / message): ${message.type} / ${msgString}`);
+
         break;
       }
     }
@@ -111,7 +119,24 @@ const UserController = {
     WebSocketServer.emit('userlist', userListMsgStr);
   },
 
+  getUserName: (clientID) => {
+    let userName;
+
+    for (let i = 0; i < connectionArray.length; i += 1) {
+      if (connectionArray[i].clientID === clientID) {
+        userName = connectionArray[i].username;
+      }
+    }
+
+    Logger.log(`getUserName for clientID: ${clientID} UserName: ${userName}`);
+
+    return userName;
+  },
+
   setUserName: (clientID, name) => {
+
+    Logger.log(`setUserName (clientID/name): ${clientID} / ${name}`);
+
     for (let i = 0; i < connectionArray.length; i += 1) {
       if (connectionArray[i].clientID === clientID) {
         connectionArray[i].username = name;

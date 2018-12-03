@@ -23,23 +23,69 @@ app.get('/testclient', (req, res) => {
 });
 
 WebSocketServer.on('connection', (socket) => {
+  // Reference for how to deliver/listen messages
   // socket.emit('request', /* ... */); // emit an event to the socket
-  // io.emit('broadcast', /* … */); // emit an event to all connected sockets
+  // WebSocketServer.emit('broadcast', /* … */); // emit an event to all connected sockets
   // socket.on('', () => { /* ... */}); // listen to the event
 
 
   // This is called whenever a user connects to the server's port
   UserController.addConnection(socket);
 
-  // Public, textual message
+  // Modular Apps pass-thru
+  socket.on('app', (message) => {
+    Logger.log(`socket connection open (id/msg): ${socket.id} / ${message}`);
+    UserController.sendToOneUser(message);
+  });
+
+  // video-offer pass-thru
+  // Signaling required for WebRTC
+  socket.on('video-offer', (message) => {
+    Logger.log(`socket connection open (id/msg): ${socket.id} / ${message}`);
+    UserController.sendToOneUser(message);
+  });
+
+  // video-answer pass-thru
+  // Signaling required for WebRTC
+  socket.on('video-answer', (message) => {
+    Logger.log(`socket connection open (id/msg): ${socket.id} / ${message}`);
+    UserController.sendToOneUser(message);
+  });
+
+  // hang-up pass-thru
+  // Signaling required for WebRTC
+  socket.on('hang-up', (message) => {
+    Logger.log(`socket connection open (id/msg): ${socket.id} / ${message}`);
+    UserController.sendToOneUser(message);
+  });
+
+  // new-ice-candidate pass-thru
+  // Signaling required for WebRTC
+  socket.on('new-ice-candidate', (message) => {
+    Logger.log(`socket connection open (id/msg): ${socket.id} / ${message}`);
+    UserController.sendToOneUser(message);
+  });
+
+  // Public broadcast or private text message
   socket.on('message', (message) => {
-    const retrievedSocket = UserController.getConnectionForID(message.id);
-    message.name = retrievedSocket.username;
+    Logger.log(`socket connection open (id/msg): ${socket.id} / ${message}`);
+    message.name = UserController.getUserName(message.id);
     message.text = message.text.replace(/(<([^>]+)>)/ig, '');
+
+    // If the message specifies a target username, only send the
+    // message to them. Otherwise, send it to every user.
+    if (message.target && message.target !== undefined && message.target.length !== 0) {
+      UserController.sendToOneUser(message);
+    } else {
+      const msgString = JSON.stringify(message);
+      // Broadcast to all connected sockets
+      WebSocketServer.emit(message.type, msgString);
+    }
   });
 
   // Username change
   socket.on('username', (message) => {
+    Logger.log(`socket connection open (id/msg): ${socket.id} / ${message}`);
     const retrievedSocket = UserController.getConnectionForID(message.id);
     const origName = message.name;
     let nameChanged = false;
@@ -69,56 +115,12 @@ WebSocketServer.on('connection', (socket) => {
     // but this is a demo. Don't do this in a real app.
     UserController.setUserName(message.id, message.name);
     UserController.sendUserListToAll(WebSocketServer);
-    sendToClients = false;  // We already sent the proper responses  ???????????????
   });
-
-
-  // *************************************************************************
-  /*
-
-    // Set up a handler for the "message" event received over WebSocket. This
-    // is a message sent by a client, and may be text to share with other
-    // users, a private message (text or signaling) for one user, or a command
-    // to the server.
-
-    // Process incoming data.
-    var sendToClients = true;
-    var storedSocket = getConnectionForID(msg.id);
-
-    // Unknown message types are passed through,
-    // since they may be used to implement client-side features.
-    // Messages with a "target" property are sent only to a user
-    // by that name.
-
-    // Convert the revised message back to JSON and send it out
-    // to the specified client or all clients, as appropriate. We
-    // pass through any messages not specifically handled
-    // in the select block above. This allows the clients to
-    // exchange signaling and other control objects unimpeded.
-
-    if (sendToClients) {
-      var msgString = JSON.stringify(msg);
-      var i;
-
-      // If the message specifies a target username, only send the
-      // message to them. Otherwise, send it to every user.
-      if (msg.target && msg.target !== undefined && msg.target.length !== 0) {
-        sendToOneUser(msg.target, msgString);
-      } else {
-        for (i=0; i<connectionArray.length; i++) {
-          connectionArray[i].sendUTF(msgString);
-        }
-      }
-    }
-  );
-*/
-  // *************************************************************************
-
 
   // event used by http://<server>:port/testCient to verify socket.io WebSockets
   // are working.
   socket.on('test-server', (message) => {
-    Logger.log(`socket connection open (id/msg): ${socket.id} / ${message}`);
+    Logger.log(`socket connection event (id/msg): ${socket.id} / ${message}`);
     socket.emit('test-client', 'Hello Client');
   });
 
