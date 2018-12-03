@@ -8,7 +8,7 @@ module.exports = {
     path:path.join(__dirname,"/dist/")
   },
   devServer:{
-    publicPath:'http://localhost:8080/',
+    historyApiFallback:true,
     compress:true
   },
   module: {

@@ -1,3 +1,8 @@
 node_modules
+<<<<<<< HEAD
+package-lock.json
+src/client/dist/
+=======
 src/client/dist
 package-lock.json
+>>>>>>> f0b2f0d79660931a633620555a9bb4f43919897f

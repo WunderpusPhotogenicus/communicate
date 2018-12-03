@@ -1,0 +1,10 @@
+#lobby{
+  background-color:#FAF3DD;
+  height:35em;
+}
+
+#lobby-users{
+  height:30em;
+  background-color:gray;
+  margin:15px;
+}
