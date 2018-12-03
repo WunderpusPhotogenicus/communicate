@@ -1,14 +1,24 @@
 import React from "react";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
+// import XHRRequest from './XHRRequest.js';
+import { UserContext } from "../UserContext.jsx";
 
-const ButtonToRoom = (props)=>{
+const NavButton = props => {
   return (
     <span>
-      <Link to={props.path}>
-        <button onClick={console.log("butt")}>{props.words}</button>
-      </Link>
+      <UserContext.Consumer>
+        {context => (
+          <React.Fragment>
+            <Link to={props.path}>
+              <button onClick={() => console.log(context)}>
+                {props.words}
+              </button>
+            </Link>
+          </React.Fragment>
+        )}
+      </UserContext.Consumer>
     </span>
   );
-}
+};
 
-export default ButtonToRoom;
+export default NavButton;

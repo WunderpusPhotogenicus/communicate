@@ -1,0 +1,4 @@
+
+const XHRRequest = (param)=>{
+  fetch()
+}
