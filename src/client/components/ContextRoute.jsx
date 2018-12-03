@@ -1,6 +1,6 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import {UserProvider} from './UserContext.jsx'
+import UserProvider from './UserContext.jsx'
 
 
 //this is a way to pass the UserContext down through each of the routes so that 
