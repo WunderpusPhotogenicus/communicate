@@ -14,7 +14,7 @@ class UserProvider extends Component {
       username: "",
       appID: ""
     },
-    otherID: {}
+    otherID: []
   };
   render() {
     return (

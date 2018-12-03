@@ -10,7 +10,7 @@ const NavButton = props => {
         {context => (
           <React.Fragment>
             <Link to={props.path}>
-              <button onClick={() => console.log(context)}>
+              <button onClick={props.function(context)}>
                 {props.words}
               </button>
             </Link>
