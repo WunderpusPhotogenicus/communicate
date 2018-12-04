@@ -101,8 +101,8 @@ const UserController = {
       if (connectionArray[i].username === message.target) {
         connectionArray[i].socket.emit(message.type, msgString);
 
-        Logger(`Emitting message to clientID: ${connectionArray[i].clientID}.`);
-        Logger(`Message (type / message): ${message.type} / ${msgString}`);
+        Logger.log(`Emitting message to clientID: ${connectionArray[i].clientID}.`);
+        Logger.log(`Message (type / message): ${message.type} / ${msgString}`);
 
         break;
       }
