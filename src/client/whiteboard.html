@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>  
+	<link rel="stylesheet" href="client/css/style.css">
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+	<header>
+		<div>
+			<h1>Whiteboard</h1>
+    </div>
+	</header>
+
+	<section id="main">
+		<canvas id="drawCanvas" width="300" height="300">Canvas is not supported on this browser!</canvas>
+
+		<section id="colorSwatch">
+			<input type="radio" name="color" id="color01" data-color="gold" checked><label for="color01"></label> 
+			<input type="radio" name="color" id="color02" data-color="darkorange">	<label for="color02"></label>  
+			<input type="radio" name="color" id="color03" data-color="navy">		<label for="color03"></label>  
+			<input type="radio" name="color" id="color04" data-color="yellowgreen">	<label for="color04"></label>  
+			<input type="radio" name="color" id="color05" data-color="firebrick">	<label for="color05"></label>  
+			<input type="radio" name="color" id="color06" data-color="powderblue">	<label for="color06"></label> 
+    </section>
+    
+		<section id="lineStyle">
+			<input type="radio" name="lineStyle" id="style01" data-type="1"> <label for="style01"></label> 
+			<input type="radio" name="lineStyle" id="style02" data-type="2"> <label for="style02"></label>  
+			<input type="radio" name="lineStyle" id="style03" data-type="3"> <label for="style03"></label>  
+			<input type="radio" name="lineStyle" id="style04" data-type="4"> <label for="style04"></label>  
+			<input type="radio" name="lineStyle" id="style05" data-type="5" checked> <label for="style05"></label>  
+		</section>
+	</section>
+	<script src="client/js/whiteboard.js"></script>
+</body>
+</html>
